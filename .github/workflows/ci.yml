@@ -1,0 +1,23 @@
+# The SDK checked as this repository holds it, on every push and pull request: installed from its lockfile, its tests
+# run, its package built. Its tests against the API run in Blupinta's own repository, before a change reaches here.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.11.26'
+      - run: uv sync --locked --group dev
+      - run: uv run pytest -q
+      - run: uv build

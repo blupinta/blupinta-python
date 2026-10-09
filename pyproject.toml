@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "blupinta"
+version = "0.1.0"
+description = "Official SDK for Blupinta's public API: every operation typed, the device flow, a home followed as it is saved, webhooks checked"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = [
+  "httpx>=0.27,<1",
+  "attrs>=23.2",
+  "python-dateutil>=2.9",
+]
+authors = [{ name = "Blupinta" }]
+keywords = ["blupinta", "floor plan", "home", "sdk", "api"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://blupinta.app"
+Documentation = "https://docs.blupinta.app/reference/libraries/"
+Source = "https://github.com/blupinta/blupinta-python"
+Issues = "https://github.com/blupinta/blupinta-python/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/blupinta"]
+
+[dependency-groups]
+dev = ["pytest>=8.3"]

@@ -17,6 +17,7 @@ from .get_open_api_document_response_200 import GetOpenApiDocumentResponse200
 from .host_reference_kind import HostReferenceKind
 from .image_option import ImageOption
 from .material_option import MaterialOption
+from .material_option_allowed_if import MaterialOptionAllowedIf
 from .material_ref_type_0 import MaterialRefType0
 from .material_ref_type_1 import MaterialRefType1
 from .model_choice import ModelChoice
@@ -117,6 +118,7 @@ __all__ = (
     "HostReferenceKind",
     "ImageOption",
     "MaterialOption",
+    "MaterialOptionAllowedIf",
     "MaterialRefType0",
     "MaterialRefType1",
     "ModelChoice",

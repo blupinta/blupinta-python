@@ -56,7 +56,7 @@ class ProductManifest:
         description (Union[Unset, Translated]): App content, shared by every user: in each of the app's languages
             (furnishing.md F5)
         variants (Union[Unset, list['ProductManifestVariantsItem']]): option combinations the maker sells under its own
-            article number
+            article number (a slots option's as its slots' choices)
         clearances (Union[Unset, list['Clearance']]): the space it needs in use, beside its sides (furnishing.md §8):
             drawers pulled out, a door's swing, a chair
         bindings (Union[Unset, list['ProductManifestBindingsItem']]): what in it a house entity can drive

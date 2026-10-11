@@ -14,9 +14,12 @@ T = TypeVar("T", bound="When")
 
 @_attrs_define
 class When:
-    """Option values that must all hold: a choice's or a material's id, a number, yes or no"""
+    """Option values that must all hold: a choice's or a material's id, a number, yes or no; in a part made per slot, null
+    for its slot left empty
 
-    additional_properties: dict[str, Union[bool, float, str]] = _attrs_field(
+    """
+
+    additional_properties: dict[str, Union[None, bool, float, str]] = _attrs_field(
         init=False, factory=dict
     )
 
@@ -35,8 +38,12 @@ class When:
         additional_properties = {}
         for prop_name, prop_dict in d.items():
 
-            def _parse_additional_property(data: object) -> Union[bool, float, str]:
-                return cast(Union[bool, float, str], data)
+            def _parse_additional_property(
+                data: object,
+            ) -> Union[None, bool, float, str]:
+                if data is None:
+                    return data
+                return cast(Union[None, bool, float, str], data)
 
             additional_property = _parse_additional_property(prop_dict)
 
@@ -49,10 +56,10 @@ class When:
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Union[bool, float, str]:
+    def __getitem__(self, key: str) -> Union[None, bool, float, str]:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Union[bool, float, str]) -> None:
+    def __setitem__(self, key: str, value: Union[None, bool, float, str]) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

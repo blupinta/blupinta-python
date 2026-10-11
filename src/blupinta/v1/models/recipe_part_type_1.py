@@ -15,6 +15,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.model_choice import ModelChoice
+    from ..models.when import When
 
 
 T = TypeVar("T", bound="RecipePartType1")
@@ -28,6 +29,12 @@ class RecipePartType1:
         models (list['ModelChoice']):
         at (list[str]): Three expressions of the options, m: x, y, z or w, h, d
         count (Union[Unset, str]): how many, an expression; 0 leaves it out (an option switching a part off)
+        slots (Union[Unset, str]): one copy per slot of this slots option (`count` of them in each, then): in the part's
+            `when` and its models', the option names this slot's own value; `index` names the slot's position
+        copy (Union[Unset, str]): in a part made per slot with a count, the name each copy's number within its slot goes
+            by
+        when (Union[Unset, When]): Option values that must all hold: a choice's or a material's id, a number, yes or no;
+            in a part made per slot, null for its slot left empty
         index (Union[Unset, str]): the name each copy's number (0, 1, …) goes by in the part's expressions
         name (Union[Unset, str]): what the part is ("drawer 1"), for clearances and, later, animation
     """
@@ -36,6 +43,9 @@ class RecipePartType1:
     models: list["ModelChoice"]
     at: list[str]
     count: Union[Unset, str] = UNSET
+    slots: Union[Unset, str] = UNSET
+    copy: Union[Unset, str] = UNSET
+    when: Union[Unset, "When"] = UNSET
     index: Union[Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -52,6 +62,14 @@ class RecipePartType1:
 
         count = self.count
 
+        slots = self.slots
+
+        copy = self.copy
+
+        when: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.when, Unset):
+            when = self.when.to_dict()
+
         index = self.index
 
         name = self.name
@@ -67,6 +85,12 @@ class RecipePartType1:
         )
         if count is not UNSET:
             field_dict["count"] = count
+        if slots is not UNSET:
+            field_dict["slots"] = slots
+        if copy is not UNSET:
+            field_dict["copy"] = copy
+        if when is not UNSET:
+            field_dict["when"] = when
         if index is not UNSET:
             field_dict["index"] = index
         if name is not UNSET:
@@ -77,6 +101,7 @@ class RecipePartType1:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.model_choice import ModelChoice
+        from ..models.when import When
 
         d = dict(src_dict)
         shape = cast(Literal["model"], d.pop("shape"))
@@ -94,6 +119,17 @@ class RecipePartType1:
 
         count = d.pop("count", UNSET)
 
+        slots = d.pop("slots", UNSET)
+
+        copy = d.pop("copy", UNSET)
+
+        _when = d.pop("when", UNSET)
+        when: Union[Unset, When]
+        if isinstance(_when, Unset):
+            when = UNSET
+        else:
+            when = When.from_dict(_when)
+
         index = d.pop("index", UNSET)
 
         name = d.pop("name", UNSET)
@@ -103,6 +139,9 @@ class RecipePartType1:
             models=models,
             at=at,
             count=count,
+            slots=slots,
+            copy=copy,
+            when=when,
             index=index,
             name=name,
         )

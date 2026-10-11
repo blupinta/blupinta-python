@@ -15,6 +15,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.condition import Condition
+    from ..models.material_option_allowed_if import MaterialOptionAllowedIf
     from ..models.translated import Translated
 
 
@@ -30,6 +31,7 @@ class MaterialOption:
         default (str):
         id (str):
         name (Translated): App content, shared by every user: in each of the app's languages (furnishing.md F5)
+        allowed_if (Union[Unset, MaterialOptionAllowedIf]): the materials sold only with some other values, by material
         visible_if (Union[Unset, Condition]): Shows (or allows) an option only when another holds one of some values
     """
 
@@ -38,6 +40,7 @@ class MaterialOption:
     default: str
     id: str
     name: "Translated"
+    allowed_if: Union[Unset, "MaterialOptionAllowedIf"] = UNSET
     visible_if: Union[Unset, "Condition"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -51,6 +54,10 @@ class MaterialOption:
         id = self.id
 
         name = self.name.to_dict()
+
+        allowed_if: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.allowed_if, Unset):
+            allowed_if = self.allowed_if.to_dict()
 
         visible_if: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.visible_if, Unset):
@@ -67,6 +74,8 @@ class MaterialOption:
                 "name": name,
             }
         )
+        if allowed_if is not UNSET:
+            field_dict["allowedIf"] = allowed_if
         if visible_if is not UNSET:
             field_dict["visibleIf"] = visible_if
 
@@ -75,6 +84,7 @@ class MaterialOption:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.condition import Condition
+        from ..models.material_option_allowed_if import MaterialOptionAllowedIf
         from ..models.translated import Translated
 
         d = dict(src_dict)
@@ -90,6 +100,13 @@ class MaterialOption:
 
         name = Translated.from_dict(d.pop("name"))
 
+        _allowed_if = d.pop("allowedIf", UNSET)
+        allowed_if: Union[Unset, MaterialOptionAllowedIf]
+        if isinstance(_allowed_if, Unset):
+            allowed_if = UNSET
+        else:
+            allowed_if = MaterialOptionAllowedIf.from_dict(_allowed_if)
+
         _visible_if = d.pop("visibleIf", UNSET)
         visible_if: Union[Unset, Condition]
         if isinstance(_visible_if, Unset):
@@ -103,6 +120,7 @@ class MaterialOption:
             default=default,
             id=id,
             name=name,
+            allowed_if=allowed_if,
             visible_if=visible_if,
         )
 

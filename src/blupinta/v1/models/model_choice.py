@@ -21,19 +21,25 @@ T = TypeVar("T", bound="ModelChoice")
 
 @_attrs_define
 class ModelChoice:
-    """A model and the options that choose it; one without `when` is the fallback
+    """A model and the options that choose it; one without `when` is the fallback. A maker's component carries its article,
+    and how many parts one article gives (STUBBARP's legs come two to a pack)
 
-    Attributes:
-        model (ModelRef): A model of the catalog: its bytes' sha256, and the file it is published from (`pnpm
-            catalog:assets`)
-        when (Union[Unset, When]): Option values that must all hold: a choice's or a material's id, a number, yes or no
-        lod (Union[Unset, ModelRef]): A model of the catalog: its bytes' sha256, and the file it is published from
-            (`pnpm catalog:assets`)
+        Attributes:
+            model (ModelRef): A model of the catalog: its bytes' sha256, and the file it is published from (`pnpm
+                catalog:assets`)
+            when (Union[Unset, When]): Option values that must all hold: a choice's or a material's id, a number, yes or no;
+                in a part made per slot, null for its slot left empty
+            lod (Union[Unset, ModelRef]): A model of the catalog: its bytes' sha256, and the file it is published from
+                (`pnpm catalog:assets`)
+            article (Union[Unset, str]):
+            per_article (Union[Unset, float]):
     """
 
     model: "ModelRef"
     when: Union[Unset, "When"] = UNSET
     lod: Union[Unset, "ModelRef"] = UNSET
+    article: Union[Unset, str] = UNSET
+    per_article: Union[Unset, float] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,6 +53,10 @@ class ModelChoice:
         if not isinstance(self.lod, Unset):
             lod = self.lod.to_dict()
 
+        article = self.article
+
+        per_article = self.per_article
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -58,6 +68,10 @@ class ModelChoice:
             field_dict["when"] = when
         if lod is not UNSET:
             field_dict["lod"] = lod
+        if article is not UNSET:
+            field_dict["article"] = article
+        if per_article is not UNSET:
+            field_dict["perArticle"] = per_article
 
         return field_dict
 
@@ -83,10 +97,16 @@ class ModelChoice:
         else:
             lod = ModelRef.from_dict(_lod)
 
+        article = d.pop("article", UNSET)
+
+        per_article = d.pop("perArticle", UNSET)
+
         model_choice = cls(
             model=model,
             when=when,
             lod=lod,
+            article=article,
+            per_article=per_article,
         )
 
         model_choice.additional_properties = d
